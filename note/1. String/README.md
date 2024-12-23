@@ -20,6 +20,12 @@
 - 대문자 / 소문자
  - 확인 : Character.isUpperCase() / isLowerCase()
  - 변환 : Character.toUpperCase() / toLowerCase()
+- doc.indexOf(word, startIndex) 
+  - doc의 startIndex부터 처음으로 등장하는 word문자열 찾기, 찾으면 단어 시작인덱스 반환 아니면 -1
+- 문자열 자르기
+  - String[] current = sc.next().split(":");
+- 문자열 포맷
+  - String.format("%02d:%02d:%02d", needHour, needMinute, needSecond)
 
 ### 문제1 : 대소문자 바꾸기
  - 영어 소문자는 대문자로, 대문자는 소문자로 바꾸기
@@ -111,7 +117,6 @@ class Main {
 ```
 
 ### 문제4 : 주어진 단어가 문서에 등장하는 횟수
-- doc.indexOf(word, startIndex) : doc의 startIndex부터 처음으로 등장하는 word문자열 찾기, 찾으면 단어 시작인덱스 반환 아니면 -1
 ```java
 class Main
 {

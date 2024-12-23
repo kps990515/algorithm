@@ -4,6 +4,12 @@
 - append(int val) : 맨마지막에 원소 넣기
 - insert(int i, int val) : i번째 원소 앞에 원소 삽입 -> O(N)
 - erase(int i) : 해당 인덱스 값 삭제 -> O(N)
+- fill(array, '?') : 해당 배열 특정값으로 채우기
+- BufferedReader / Writer
+  - BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  - br.readLine();
+  - BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+  - bw.write() / bw.flush()
 
 ### 문제 1 : 모든 행과 열에 경비원이 최소 한명씩 있을때 추가로 필요한 경비원 수
 - 경비원이 필요한 행의 숫자, 열의 숫자 구하기
