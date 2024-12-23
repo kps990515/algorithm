@@ -4,3 +4,4 @@
 ## [BruteForce](https://github.com/kps990515/algorithm/tree/master/note/4.%20BruteForce)
 ## [Sort](https://github.com/kps990515/algorithm/tree/master/note/5.%20Sort)
 ## [PrefixSum](https://github.com/kps990515/algorithm/tree/master/note/6.%20PrefixSum)
+## [BinarySearch](https://github.com/kps990515/algorithm/tree/master/note/6.%20BinarySearch)
