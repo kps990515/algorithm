@@ -17,6 +17,9 @@
 - charAt : str.chartAt(i);
 - StringBuilder : sb = new StringBuilder(); / sb.append()
 - 배열 : int[] countA = new int[26];
+- 대문자 / 소문자
+ - 확인 : Character.isUpperCase() / isLowerCase()
+ - 변환 : Character.toUpperCase() / toLowerCase()
 
 ### 문제1 : 대소문자 바꾸기
  - 영어 소문자는 대문자로, 대문자는 소문자로 바꾸기
