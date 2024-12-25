@@ -1,6 +1,5 @@
-## 이분탐색
-- 정렬되어있는 집합에서 원하는 값을 찾는 효율적인 탐색 방법
-- 추정값을 구하기 위해 반복적 계산을 통해 추정값을 찾는 방법
+## 이분탐색((O(log n)))
+- 주로 "정렬된" 데이터에서 "한 개"의 특정 값을 빠르게 찾는 데 사용
 - 함수
   - set.contains() -> O(1)
   - set.floor(x) -> set값 중 x이하이면서 가장 가까운 값
@@ -36,11 +35,11 @@ class Main
         int start = 0, end = arr.length - 1;
         while (start <= end) {
             int middle = (start + end) / 2;
-            if (arr[middle] < x) end = middle + 1;
-            else if (arr[middle] > x) start = middle - 1;
-            else return true;
+            if (arr[middle] < x) start = middle + 1; // x가 중간값보다 큰 경우
+            else if (arr[middle] > x) end = middle - 1; // x가 중간값보다 작은 경우
+            else return true; // x가 중간값과 같은 경우
         }
-        return false;
+        return false; // 찾지 못한 경우
     }
 
     public static void main (String[] args) {

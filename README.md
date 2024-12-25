@@ -4,4 +4,6 @@
 ## [BruteForce](https://github.com/kps990515/algorithm/tree/master/note/4.%20BruteForce)
 ## [Sort](https://github.com/kps990515/algorithm/tree/master/note/5.%20Sort)
 ## [PrefixSum](https://github.com/kps990515/algorithm/tree/master/note/6.%20PrefixSum)
-## [BinarySearch](https://github.com/kps990515/algorithm/tree/master/note/6.%20BinarySearch)
+## [BinarySearch](https://github.com/kps990515/algorithm/tree/master/note/7.%20BinarySearch)
+## [TwoPointer](https://github.com/kps990515/algorithm/tree/master/note/8.%20TwoPointer)
+## [List](https://github.com/kps990515/algorithm/tree/master/note/9.%20List)
