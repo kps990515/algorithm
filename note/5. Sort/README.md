@@ -1,6 +1,28 @@
 ## Sort
-- primitive형 Arrays.sort : Dual-Pivot Quick Sort -> O(N제곱)
-- Object형 Arrays.sort : Tim sort -> O(Nlogn)
+- TreeSet(Ordered) -> O(logN)
+- HashSet(Unordered) -> O(1)
+- TreeMap : Ordered, O(longN)
+- HashMap : Unordered, O(1)
+- LinkedHashMap : 입력한 순서대로 정렬이 필요할때, O(1)
+- Arrays.sort
+  - primitive형 Arrays.sort : Dual-Pivot Quick Sort -> O(N제곱)
+  - Object형 Arrays.sort : Tim sort -> O(Nlogn)
+- getOrDefault(set, 0) : Set에 값을 넣을때 값이 없는 경우 default값 세팅
+```java
+titles.put(title, titles.getOrDefault(title, 0) + 1);
+```
+
+```java
+Arrays.sort(arr, (a, b) -> {return b.scr-a.acr} // 내림차순
+Arrays.sort(arr, (a, b) -> Integer.compare(b.scr, a.scr));
+```
+```java
+Arrays.sort(words, (o1, o2) -> {
+    if (o1.length() == o2.length())
+      return o1.compareTo(o2); // 길이가 같으면 사전순
+      return o1.length() - o2.length(); // 길이가 짧은것 부터
+    });
+```
 
 ## 문제1. 수 정렬
 ```java

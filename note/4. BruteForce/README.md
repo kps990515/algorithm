@@ -381,19 +381,6 @@ class Main
         double scr;
     }
 
-    public static void sortScoresDescendingOrder(Score[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (arr[i].scr > arr[j].scr) {
-                    Score cur = arr[i];
-                    for (int k = i; k > j; k--)
-                        arr[k] = arr[k - 1];
-                    arr[j] = cur;
-                }
-            }
-        }
-    }
-
     public static void main (String[] args) {
         Scanner sc = new Scanner(System.in);
         int X = sc.nextInt();
@@ -426,7 +413,7 @@ class Main
         }
 
         // 3. 전체 점수 집합 내림차순정렬
-        sortScoresDescendingOrder(scores);
+        Arrays.sort(arr, (a, b) -> Integer.compare(b.scr, a.scr));
 
         // 3. 총 14번째까지 칩을 지급
         int[] ans = new int[26];
