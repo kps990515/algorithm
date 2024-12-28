@@ -2,6 +2,7 @@
 - 자기 자신을 호출하는 함수
 - 하나의 커다란 문제를 작은 문제로 나누어 해결하기 위해
 - 문제를 귀납적으로 풀기 위해서 : i번째 답을 구하기 위해 i-1, i-2의 결과를 활용
+- 백트래킹 : 다른 독립적 경우의 수 진행을 위해 원 상태로 복구하는 것
 
 ## 잘 설계하는 법
 - BaseCase : 재귀호출을 멈추고 함수가 종료되는 조건(무조건 하나 존재 필요)
@@ -178,5 +179,106 @@ public class Main {
 
         perm(0,0); // 조합 생성 시작
     }
+}
+```
+
+### 문제 : N개의 자연수 집합에서 M개를 고른 수열, 수열은 사전순, 중복되는 수열은 한번반 출력
+### + 추가조건 : 같은 수를 여러번 골라도된다
+- check 배열이 필요 없음
+- StringBuilder 사용
+
+```java
+class Main {
+    // 숫자 배열, 결과 배열, 방문 여부 배열을 선언합니다.
+    public static int[] numbers;
+    public static int[] output;
+    public static int n,m;
+    public static StringBuilder sb = new StringBuilder();  // 결과를 저장할 StringBuilder
+
+    // 순열 함수: 순열을 생성합니다.
+    public static void perm(int depth) {
+        // BaseCase : 깊이(depth)가 m에 도달하면 출력 함수를 호출합니다.
+        if (depth == m) {
+            for(int i = 0; i < m; i++){
+                sb.append(output[i] + " ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        // RecursiveCase
+        for (int i = 0; i < n; i++) {
+            output[depth] = numbers[i];
+            perm(depth + 1, n, m);  // 다음 깊이로 재귀 호출
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();  // 숫자 배열의 길이
+        int m = sc.nextInt();  // 생성할 순열의 길이
+
+        // 숫자 배열 초기화
+        numbers = new int[n];
+        output = new int[m];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();  // 숫자 입력
+        }
+        Arrays.sort(numbers);  // 입력받은 숫자를 정렬
+
+        perm(0);  // 순열 생성 함수 호출
+        System.out.println(sb);  // 결과 출력
+    }
+}
+```
+
+### 문제 : N개의 자연수 집합에서 M개를 고른 수열, 수열은 사전순, 중복되는 수열은 한번반 출력
+### + 추가조건 : 같은 수를 여러번 골라도된다, 고른 수열은 비내림차순
+- 비내림차순 : 오름차순과 동일하지만 같은 중복된 수가 나와도 됨
+- i번째 재귀에서 배열의 i번째부터 사용했다고 하면, i+1번째 재귀에서는 i+1부터 사용하면 된다
+
+```java
+public class Main {
+  public static StringBuilder sb = new StringBuilder();  // 결과를 저장할 StringBuilder 객체
+  public static int[] numbers;  // 입력할 숫자들을 저장할 배열
+  public static int[] output;   // 순열 결과를 저장할 배열
+  public static int n, m;       // n: 숫자 배열의 크기, m: 생성할 순열의 길이
+
+  // 순열 함수: 선택된 요소를 제외하고 순열을 생성합니다.
+  public static void perm(int depth, int start) {
+    // Base case: 깊이(depth)가 m에 도달하면 출력 함수를 호출합니다.
+    if (depth == m) {
+      for(int i = 0; i < m; i++){
+        sb.append(output[i] + " ");
+      }
+      sb.append("\n");
+      return;
+    }
+
+    // Recursive case: start 인덱스부터 n까지 순회하면서 순열을 생성
+    for (int i = start; i < n; i++) {
+      output[depth] = numbers[i];
+      perm(depth + 1, i);  // start를 i로 설정하여 중복 허용 조합을 생성
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    n = sc.nextInt();  // 숫자 배열의 크기 입력 받기
+    m = sc.nextInt();  // 생성할 순열의 길이 입력 받기
+
+    // 숫자 배열 초기화
+    numbers = new int[n];
+    output = new int[m];
+
+    for (int i = 0; i < n; i++) {
+      numbers[i] = sc.nextInt();  // 숫자 입력 받기
+    }
+    Arrays.sort(numbers);  // 입력 받은 숫자를 정렬
+
+    perm(0, 0);  // 순열 생성 함수 호출
+    System.out.println(sb);  // 생성된 모든 순열 출력
+    sc.close();  // 스캐너 리소스를 닫습니다.
+  }
 }
 ```
