@@ -113,12 +113,14 @@ public class Main {
 }
 ```
 
-### [두 용액](https://www.acmicpc.net/problem/1015)
+### [두 용액](https://www.acmicpc.net/problem/2470)
 - 시간 : O(NlogN)
 - 공간 : O(N)
 - 풀이법
   - 배열 정렬
-  - A[i]를 선택했을때 -A[i]이상의 원소중 가장 왼쪽의 위치한 숫자 구하기, 없으면 N+1
+  - A[left]를 골랐을때 -A[left]와 가까워야함
+  - Result : A[left+1...N]에서 X=-A[left]이상의 원소중 가장 왼쪽 위치 / 없다면 N+1
+  - A[Result-1]과 A[Result]중 X랑 가장 가까운 원소가 있음
 ```java
 import java.io.*;
 import java.util.*;
@@ -161,6 +163,7 @@ public class Main {
 
         int best_sum = Integer.MAX_VALUE;
         int v1 = 0, v2 = 0;
+        // N-1까지인 이유는 마지막 Right가 N이여야해서
         for (int left = 1; left <= N - 1; left++) {
             // A[left] 용액을 쓸 것이다. 고로 -A[left] 와 가장 가까운 용액을 자신의 오른쪽 구간에서 찾자.
             int candidate = lower_bound(A, left + 1, N, -A[left]);
