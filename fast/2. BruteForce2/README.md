@@ -80,39 +80,47 @@ public class Main {
         StringTokenizer st;
 
         public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         }
 
         public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(s));
+            BufferedReader br = new BufferedReader(new FileReader(s));
         }
 
-        private void ensureTokenizer() throws IOException {
+        public void ensureTokenizer() {
             if (st == null || !st.hasMoreElements()) {
-                st = new StringTokenizer(br.readLine());
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
             }
         }
 
-        String next() throws IOException {
+        public String next() {
             ensureTokenizer();
             return st.nextToken();
         }
 
-        int nextInt() throws IOException {
+        int nextInt() {
             return Integer.parseInt(next());
         }
 
-        long nextLong() throws IOException {
+        long nextLong() {
             return Long.parseLong(next());
         }
 
-        double nextDouble() throws IOException {
+        double nextDouble() {
             return Double.parseDouble(next());
         }
 
-        String nextLine() throws IOException {
-            st = null; // reset the tokenizer
-            return br.readLine();
+        String nextLine() {
+            st = null;
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         }
     }
 }
@@ -185,39 +193,47 @@ public class Main {
         StringTokenizer st;
 
         public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         }
 
         public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(s));
+            BufferedReader br = new BufferedReader(new FileReader(s));
         }
 
-        private void ensureTokenizer() throws IOException {
+        public void ensureTokenizer() {
             if (st == null || !st.hasMoreElements()) {
-                st = new StringTokenizer(br.readLine());
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
             }
         }
 
-        String next() throws IOException {
+        public String next() {
             ensureTokenizer();
             return st.nextToken();
         }
 
-        int nextInt() throws IOException {
+        int nextInt() {
             return Integer.parseInt(next());
         }
 
-        long nextLong() throws IOException {
+        long nextLong() {
             return Long.parseLong(next());
         }
 
-        double nextDouble() throws IOException {
+        double nextDouble() {
             return Double.parseDouble(next());
         }
 
-        String nextLine() throws IOException {
-            st = null; // reset the tokenizer
-            return br.readLine();
+        String nextLine() {
+            st = null;
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         }
     }
 } 
@@ -278,39 +294,47 @@ public class Main {
         StringTokenizer st;
 
         public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         }
 
         public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(s));
+            BufferedReader br = new BufferedReader(new FileReader(s));
         }
 
-        private void ensureTokenizer() throws IOException {
+        public void ensureTokenizer() {
             if (st == null || !st.hasMoreElements()) {
-                st = new StringTokenizer(br.readLine());
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException();
+                }
             }
         }
 
-        String next() throws IOException {
+        public String next() {
             ensureTokenizer();
             return st.nextToken();
         }
 
-        int nextInt() throws IOException {
+        int nextInt() {
             return Integer.parseInt(next());
         }
 
-        long nextLong() throws IOException {
+        long nextLong() {
             return Long.parseLong(next());
         }
 
-        double nextDouble() throws IOException {
+        double nextDouble() {
             return Double.parseDouble(next());
         }
 
-        String nextLine() throws IOException {
-            st = null; // reset the tokenizer
-            return br.readLine();
+        String nextLine() {
+            st = null;
+            try {
+                return br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         }
     }
 } 
