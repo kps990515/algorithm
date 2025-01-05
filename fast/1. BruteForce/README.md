@@ -206,7 +206,7 @@ public class Main {
 } 
 ```
 
-### [N과 M(4)](https://www.acmicpc.net/problem/15649)
+### [N과 M(4)](https://www.acmicpc.net/problem/15652)
 - 문제 : 자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
 - 유형 : N개중 중복가능 / M은 비내림차순
 - 시간복잡도 : O(N의M승)
@@ -311,7 +311,7 @@ public class Main {
 } 
 ```
 
-### N과 M(2)
+### [N과 M(2)](https://www.acmicpc.net/problem/15650)
 - 문제 : 자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
 - 유형 : N개중 중복없이 / M은 오름차순
 - 시간복잡도 : O(N의M승)
