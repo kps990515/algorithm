@@ -6,4 +6,6 @@
 ## [TwoPointer](https://github.com/kps990515/algorithm/tree/master/fast/6.%20TwoPointer)
 ## [GraphSearch](https://github.com/kps990515/algorithm/tree/master/fast/7.%20GraphSearch)
 ## [GraphSearch2](https://github.com/kps990515/algorithm/tree/master/fast/8.%20GraphSearch2)
-## [GraphSearch3](https://github.com/kps990515/algorithm/tree/master/fast/8.%20GraphSearch3)
+## [GraphSearch3](https://github.com/kps990515/algorithm/tree/master/fast/9.%20GraphSearch3)
+## [Tree](https://github.com/kps990515/algorithm/tree/master/fast/10.%20Tree)
+## [TopologicalSort](https://github.com/kps990515/algorithm/tree/master/fast/11.%20TopologicalSort)

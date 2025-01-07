@@ -3,7 +3,7 @@
 - 문제 키워드(가중치 없을 때)
   - 최소 이동 횟수, 최단 시간
 
-###[미로탐색](https://www.acmicpc.net/problem/2178)
+### [미로탐색](https://www.acmicpc.net/problem/2178)
 ```java
 import java.io.*;
 import java.lang.reflect.Array;
