@@ -50,44 +50,79 @@ class Main
 
 ### 문제2. 입력된 순으로 키 순으로 줄을 설때 학생들이 뒤로 물러난 걸음 수의 총합
 ```java
-class Main {
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int P = sc.nextInt();
-        while (P-- > 0) {
-            int T = sc.nextInt();
-            int[] h = new int[20];
-            for (int i = 0; i < 20; i++)
-                h[i] = sc.nextInt();
+import java.io.*;
+import java.util.*;
 
-            int cnt = 0;
-            for (int i = 0; i < 20; i++) {
-                // j : 내 앞에 있는 사람중 나보다 키큰사람
-                for (int j = 0; j < i; j++) {
-                    //나보다 키가 크다면
-                    if (h[j] > h[i]) {
-                        int myH = h[i];
-                        // 내 자리부터 나보다 키큰 사람 사이아이들 뒤로 가게하기
-                        for (int k = i; k > j; k--) {
-                            h[k] = h[k - 1];
-                            cnt++;
-                        }
-                        h[j] = myH;
-                        break;
-                    }
-                }
-            }
-            System.out.println(T + " " + cnt);
-        }
+public class Main {
+  static StringBuilder sb = new StringBuilder();
+  static FastReader sc = new FastReader();
+
+  static int T, N;  // 테스트 케이스 번호와, 불필요한 변수들을 제거하였습니다.
+  static int[] dist = new int[20]; // 학생들의 키 저장 배열
+
+  static void input() {
+    T = sc.nextInt();  // 테스트 케이스 번호를 올바르게 읽어옵니다.
+    for(int i = 0; i < 20; i++) {
+      dist[i] = sc.nextInt();  // 학생들의 키 입력
     }
+  }
+
+  static void pro() {
+    int count = 0;
+    // 초기에 line 리스트는 비어 있으며, 학생들을 적절한 위치에 삽입하면서 줄을 세웁니다.
+    ArrayList<Integer> line = new ArrayList<>();
+    for (int h : dist) {
+      int position = 0;
+      // 적절한 위치를 찾기 위해 이미 줄 선 학생들을 검사합니다.
+      while (position < line.size() && line.get(position) < h) {
+        position++; // 오름차순으로 되어있으면 넘어가기
+      }
+      line.add(position, h);
+      // 삽입된 학생 뒤에 있는 모든 학생들이 한 칸씩 뒤로 물러납니다.
+      count += line.size() - position - 1;
+    }
+    System.out.println(T + " " + count);  // 결과 출력
+  }
+
+  public static void main(String[] args) {
+    int P = sc.nextInt();  // 테스트 케이스 수 입력
+    while (P-- > 0) {
+      input();
+      pro();
+    }
+  }
+
+  static class FastReader {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public FastReader() {
+      br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+      while (st == null || !st.hasMoreElements()) {
+        try {
+          st = new StringTokenizer(br.readLine());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      return st.nextToken();
+    }
+
+    int nextInt() {
+      return Integer.parseInt(next());
+    }
+  }
 }
+
 ```
 
 ### 문제3. N개의 자연수가 주어질때 오름차순 정렬하기
 - 1~10000까지의 숫자를 넣을 수 있는 10000개의 배열 만들기
 - 각 배열마다 숫자중복되는 만큼 출력해주기
-- Scanner, System.out계열은 느림
-- BufferedReader, BufferedWriter가 더 빠름
+- Arrays.sort로 하면 시간초과 가능성 있음
 ```java
 import java.io.*;
 
@@ -114,6 +149,8 @@ class Main
 ```
 
 ### 문제4. 서로 다른 양의 정수로 이루어진 수열에서 두 수의 합이 X가 되는 쌍의 개수
+- 중복된 쌍을 보지 않아야함
+- i<j도 확인도 필수
 ```java
 class Main
 {
@@ -135,7 +172,7 @@ class Main
         // 1 2 3 4 5 6 7 / X:8 -> (1,7) (2,7) (3,5) -> 1,2,3까지만 봐도됨
         for (int i = 1; i <= (X - 1) / 2; i++)
             if (X - i <= 1000000)
-                ans += cnt[X-i] ? 1: 0; // 합에 맞는 쌍이 있으면 플러스
+                ans += (cnt[i] && cnt[X-i]) ? 1: 0; // 합에 맞는 쌍이 있으면 플러스
         System.out.println(ans);
     }
 }
