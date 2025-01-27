@@ -13,19 +13,45 @@
    - == 비교시 다른 값
 
 3. 함수
-- Scanner : import java.util.Scanner; / Scanner sc = new Scanner(System.in);
-- charAt : str.chartAt(i);
-- StringBuilder : sb = new StringBuilder(); / sb.append()
-- 배열 : int[] countA = new int[26];
-- 대문자 / 소문자
- - 확인 : Character.isUpperCase() / isLowerCase()
- - 변환 : Character.toUpperCase() / toLowerCase()
-- doc.indexOf(word, startIndex) 
-  - doc의 startIndex부터 처음으로 등장하는 word문자열 찾기, 찾으면 단어 시작인덱스 반환 아니면 -1
-- 문자열 자르기
-  - String[] current = sc.next().split(":");
-- 문자열 포맷
-  - String.format("%02d:%02d:%02d", needHour, needMinute, needSecond)
+   - String -> char배열 
+    ```java
+    char[] ans = str.toCharArray();  
+    // 출력
+    System.out.println(ans);
+    ```
+   - 대소문자 구별 & 바꾸기
+    ```java
+    char ch = str.charAt(i);
+   
+    if (Character.isUpperCase(ch)) {
+    // 대문자 -> 소문자
+    sb.append(Character.toLowerCase(ch));
+    } else if (Character.isLowerCase(ch)) {
+        // 소문자 -> 대문자
+        sb.append(Character.toUpperCase(ch));
+    } else {
+        // 알파벳이 아닌 문자는 그대로 유지
+        sb.append(ch);
+    }
+    ```
+    - char 번호로 char생성
+    ```java
+    alphabet = (char)('A' + i);
+    ```
+
+    - String에서 String 찾기
+    ```java
+    int findIndex = doc.indexOf(word, startIndex);
+    if (findIndex < 0)
+        break;
+    startIndex = findIndex + word.length();
+    count++;
+    ```
+
+    - 문자열 자르기
+    ```java
+    String[] current = sc.next().split(":");
+    ```
 
 ### 문제1 : 대소문자 바꾸기
  - 영어 소문자는 대문자로, 대문자는 소문자로 바꾸기
