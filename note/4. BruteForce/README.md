@@ -372,13 +372,19 @@ class Main
 ```java
 class Main
 {
-    static class Score{
+    static class Score implements Comparable<Score>{
         Score(int staffIndex, double scr) {
             this.staffIndex = staffIndex;
             this.scr = scr;
         }
         int staffIndex;
         double scr;
+
+        // Comparable 인터페이스의 compareTo 메소드 구현
+        @Override
+        public int compareTo(Score other) {
+            return Double.compare(other.scr, this.scr); // 내림차순 정렬
+        }
     }
 
     public static void main (String[] args) {
@@ -413,7 +419,12 @@ class Main
         }
 
         // 3. 전체 점수 집합 내림차순정렬
-        Arrays.sort(arr, (a, b) -> Integer.compare(b.scr, a.scr));
+        Arrays.sort(scores, new Comparator<Score>() {
+            public int compare(Score s1, Score s2) {
+                return Double.compare(s2.scr, s1.scr); // 내림차순
+            }
+        });
+        // Arrays.sort(scores);
 
         // 3. 총 14번째까지 칩을 지급
         int[] ans = new int[26];

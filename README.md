@@ -3,6 +3,7 @@
 ## [TimeComplexity](https://github.com/kps990515/algorithm/tree/master/note/2.%20TimeComplexity)
 ## [Array](https://github.com/kps990515/algorithm/tree/master/note/3.%20Array)
 ## [BruteForce](https://github.com/kps990515/algorithm/tree/master/note/4.%20BruteForce)
+## [BruteForce2](https://github.com/kps990515/algorithm/tree/master/note/4-2.%20BruteForce2)
 ## [Sort](https://github.com/kps990515/algorithm/tree/master/note/5.%20Sort)
 ## [PrefixSum](https://github.com/kps990515/algorithm/tree/master/note/6.%20PrefixSum)
 ## [BinarySearch](https://github.com/kps990515/algorithm/tree/master/note/7.%20BinarySearch)
