@@ -31,7 +31,7 @@
      | -3      | 2       | 0       | 0       | 0       | 8       | 0       | -2      | 0       | 0        |
      
 3. accDelta(변화량 합) 배열 만들기
-   - 1~10까지는 -3, 6~10까지는 +3
+   - 1 ~ 10까지는 -3, 6~10까지는 +3
    - | Index 1 | Index 2 | Index 3 | Index 4 | Index 5 | Index 6 | Index 7 | Index 8 | Index 9 | Index 10 |
      |---------|---------|---------|---------|---------|---------|---------|---------|---------|----------|
      | -3      | -3      | -3      | -3      | -3      | 0       | 0       | 0       | 0       | 0        |
@@ -207,8 +207,8 @@ class Main
     // 누적합 표 구하기
     static int[][] getPrefixSum(char[][] map) {
         int[][] acc = new int[map.length][map[0].length];
-        for (int i = 1; i <= map.length; i++)
-            for (int j = 1; j <= map[0].length; j++) {
+        for (int i = 1; i < map.length; i++)
+            for (int j = 1; j < map[0].length; j++) {
                 int alive = (map[i][j] == '*' ? 1 : 0);
                 // 왼쪽 + 위쪽 - 대각선왼위 + 자기자신
                 acc[i][j] = acc[i - 1][j] + acc[i][j - 1] - acc[i - 1][j - 1] + alive;
