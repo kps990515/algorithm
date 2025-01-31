@@ -2,12 +2,13 @@
 - 주로 "정렬된" 데이터에서 "한 개"의 특정 값을 빠르게 찾는 데 사용
 - 함수
   - set.contains() -> O(1)
-  - set.floor(x) -> set값 중 x이하이면서 가장 가까운 값
-  - set.ceiling(x) -> set값 중 x이상이면서 가장 가까운 값
+  - set.floor(x) -> set값 중 x이하이면서 가장 가까운 값(없으면 NPE)
+  - set.ceiling(x) -> set값 중 x이상이면서 가장 가까운 값(없으면 NPE)
   - Arrays.binarySearch(arr, x) -> O(logN)
   - Math.sqrt(number) -> 제곱근 구하기
+  - Math.pow(2,3) -> 거듭제곱 구하기
 
-### 문제1. N개의 정수가 있을때 X라는 정수가 있는지 확인
+### [수 찾기](https://www.acmicpc.net/problem/1920)
 - set사용
 ```java
 class Main
@@ -64,7 +65,7 @@ class Main
 } 
 ```
 
-### 문제2. N개의 문자열로 이루어진 집합 S, M개의 문자열 중 집합 S에 포함된 문자열 개수
+### [문자열 집합](https://www.acmicpc.net/problem/14425)
 - Set으로 풀기
 ```java
 class Main
@@ -128,7 +129,7 @@ class Main
 } 
 ```
 
-### 문제3. 자연수로 이루어진 집합 U에서 3개를 골랐을때 3개의 합 d도 U안에 포함되어있으면서 가장 큰 d
+### [세 수의 합](https://www.acmicpc.net/problem/2295)
 - A + B + C = X를 A + B = X - C 로 바꾸면 O(N제곱logN)
 ```java
 class Main
@@ -160,47 +161,55 @@ class Main
 } 
 ```
 
-### 문제4. N개의 용액의 특성값이 [-10억, 10억]범위로 주어질때 서로 다른 용액을 더했을때 0에 가장 가까운 값
+### [두 용액](https://www.acmicpc.net/problem/2470)
 1. 숫자크기대로 정렬
 2. 첫번째 용액부터 이분탐색을 통해 다른 용액을 더해 0이랑 가까운 값을 구하기
     - 음수면 오른쪽으로 이분탐색
     - 양수면 왼쪽으로 이분탐색
 ```java
-class Main
-{
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+import java.io.*;
+import java.util.*;
 
-        int N = sc.nextInt();
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
 
-        int ansAbs = 2000000001;
-        int ans1 = 0;
-        int ans2 = 0;
-        TreeSet<Integer> set = new TreeSet<>();
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(br.readLine());
+        int[] solutions = new int[N];
+        st = new StringTokenizer(br.readLine());
+
         for (int i = 0; i < N; i++) {
-            // 용액 값 x
-            int x = sc.nextInt();
-            // -x이하 값, -x이상 값중 가장 가까운 값들
-            Integer[] pairValues = {set.floor(-x), set.ceiling(-x)};
-            for (Integer pairValue : pairValues) {
-                if (pairValue == null) continue;
-                int sumAbs = Math.abs(x + pairValue);
-                if (ansAbs > sumAbs) {
-                    ansAbs = sumAbs;
-                    ans1 = x;
-                    ans2 = pairValue;
-                }
-            }
-            // 어차피 -x의 값을 구하는거기 때문에 해당 용액의 왼쪽에 있는값들만 봄
-            // set.floor, set.ceiling에 x가 나오지 않게 하기 위해 마지막에 add
-            set.add(x);
+            solutions[i] = Integer.parseInt(st.nextToken());
         }
-        System.out.println(Math.min(ans1, ans2) + " " + Math.max(ans1, ans2));
+
+        Arrays.sort(solutions);
+
+        int left = 0, right = N - 1;
+        int minSum = Integer.MAX_VALUE, result1 = 0, result2 = 0;
+
+        while (left < right) {
+            int sum = solutions[left] + solutions[right];
+            if (Math.abs(sum) < minSum) {
+                minSum = Math.abs(sum);
+                result1 = solutions[left];
+                result2 = solutions[right];
+            }
+
+            if (sum < 0) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        System.out.println(result1 + " " + result2);
     }
 }
+
 ```
 
-## 문제5. N개의 숫자카드에 M값의 숫자카드가 몇개씩 있는가
+## [숫자 카드 2](https://www.acmicpc.net/problem/10816)
 ```java
 class Main
 {
@@ -228,57 +237,31 @@ class Main
 }
 ```
 
-### 문제6. 제곱근 구하기
-- Math.sqrt 사용
-```java
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.print("정수를 입력하세요: ");
-        int number = scanner.nextInt();
-
-        // 제곱근을 계산하고, 결과를 정수로 변환
-        int sqrtResult = (int) Math.sqrt(number);
-
-        System.out.println("입력한 정수의 제곱근(정수 부분): " + sqrtResult);
-        
-        scanner.close();
-    }
-}
-```
+### [정수 제곱근](https://www.acmicpc.net/problem/2417)
+- Math.sqrt는 double을 리턴하기 때문에 long으로 변환 시 정밀도로 인해 오답이 발생
 - 이분탐색 사용
 ```java
-class Main
-{
-  static long calcSqrtInteger(long x) {
-    if (x == 0) return 0;
-    // 1L << 32 : 32비트이동 -> 2의 32승
-    long start = 1, last = 1L << 32, sqrt = -1;
-    while(l <= r) {
-      // m: 이분탐색의 중앙값  
-      long m = (start + last) / 2;
-      if (m*m >= x) {
-        last = m - 1;
-        sqrt = m;
-      }
-      else last = m + 1;
-    }
-    return sqrt;
-  }
-
-  public static void main (String[] args) {
-    Scanner sc = new Scanner(System.in);
-
+public static void main(String[] args) {
     long N = sc.nextLong();
-    System.out.println(calcSqrtInteger(N));
-  }
-} 
+    long start = 0;
+    long end = N;
+    long answer = 0;
+    
+    while(start<=end){
+        long mid = (start+end) / 2;
+        if(Math.pow(mid,2)>=N){
+            answer = mid;
+            end = mid-1;
+        }else{
+            start = mid+1;
+        }
+    }
+    System.out.println(answer);
+}
 ```
 
-### 문제7. M미터 이상의 나무를 가져갈 수 있는 절단기 높이의 최대값
+### [나무 자르기](https://www.acmicpc.net/problem/2805)
+- 나무길이의 합이 int범위를 넘어서기 때문에 sum의 값은 long으로 해야함
 ```java
 class Main
 {
@@ -312,7 +295,9 @@ class Main
   }
 ```
 
-### 문제8. 길이가 다른 K개 랜선으로 N개의 같은 길이의 랜선으로 만들때 만들 수 있는 최대 랜선 길이
+### [랜선 자르기](https://www.acmicpc.net/problem/1654)
+- 2의 31승-1이 int의 최대값이지만 L이 1이라 더하면 int범위 벗어남
+- long으로 해야함
 ```java
 class Main
 {
@@ -346,54 +331,57 @@ class Main
 }
 ```
 
-### 문제9. N일동안 사용할 금액이 있을때, M번 K원 인출할때 K의 최소값
+### [용돈 관리](https://www.acmicpc.net/problem/6236)
 ```java
-class Main
-{
-    static boolean isPossible(int[] useAmounts, int drawAmount, int maxDrawCount) {
-        int drawCount = 1;
-        int currentAmount = drawAmount;
-        for (int useAmount : useAmounts) {
-            // 한번 사용금액이 인출금액보다 크면 종료
-            if (useAmount > drawAmount) return false;
-            if (currentAmount < useAmount) {
-                // 인출횟수가 다 되면 종료
-                if (drawCount == maxDrawCount) return false;
-                // 남은금액이 사용할금액보다 적으면 인출한번 더
-                drawCount++;
-                // 현재금액 = 인출금액
-                currentAmount = drawAmount;
-            }
-            // 현재금액 = 보유금액 - 사용금액
-            currentAmount -= useAmount;
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        int[] uses = new int[N];
+        int maxUse = 0; // 가장 큰 사용 금액을 찾기 위한 변수
+
+        for (int i = 0; i < N; i++) {
+            uses[i] = Integer.parseInt(br.readLine());
+            maxUse = Math.max(maxUse, uses[i]); // 최대 사용 금액 업데이트
         }
-        return true;
-    }
 
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+        int L = maxUse, R = 10000 * N, answer = 0;
+        while (L <= R) {
+            int mid = (L + R) / 2;
+            int count = 1; // M번 인출해야 하므로 최소 한 번은 인출함
+            int currentAmount = mid; 
 
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        int[] useAmounts = new int[N];
-        for (int i = 0; i < N; i++)
-            useAmounts[i] = sc.nextInt();
-
-        int start = 1, last = N * 10000, ans = -1;
-        while (start <= last) {
-            int m = (start + last) / 2;
-            if (isPossible(useAmounts, m, M)) {
-                ans = m;
-                last = m - 1;
+            for (int i = 0; i < N; i++) {
+                if (currentAmount < uses[i]) { // 현재 금액으로 부족할 경우
+                    count++; // 인출 횟수 증가
+                    if (count > M) break; // M번 초과하면 반복 중단
+                    currentAmount = mid; // 다시 인출
+                }
+                // currentAmount는 maxUse보다 무조건 크기때문에 음수가 나올일 없음
+                currentAmount -= uses[i]; // 남은 금액 계산
             }
-            else start = m + 1;
+
+            if (count > M) {
+                L = mid + 1; // 인출 횟수가 너무 많으면 금액을 증가
+            } else {
+                R = mid - 1;
+                answer = mid; // 가능한 K 중 최소값 갱신
+            }
         }
-        System.out.println(ans);
+
+        System.out.println(answer);
     }
 }
 ```
 
-### 문제10. N개의 집 중 C개의 집을 골라 공유기 설치할때 가장 인접한 공유기 사이의 최대거리
+### [공유기 설치](https://www.acmicpc.net/problem/2110)
+- 시작부터 설치하면서 하기 때문에 cnt = 1로 시작
 ```java
 class Main
 {
@@ -427,6 +415,90 @@ class Main
               start = m + 1;
             }
             else last = m - 1;
+        }
+        System.out.println(ans);
+    }
+}
+```
+
+### [예산](https://www.acmicpc.net/problem/2512)
+```java
+import java.util.Scanner;
+
+class Main
+{
+    static int calcTotalBudget(int[] budgets, int budgetLimit) {
+        int sum = 0;
+        for (int budget : budgets)
+            sum += Math.min(budget, budgetLimit);
+        return sum;
+    }
+
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int[] budgets = new int[N];
+        int maxBudget = 0;
+        for (int i = 0; i < N; i++) {
+            budgets[i] = sc.nextInt();
+            maxBudget = Math.max(maxBudget, budgets[i]);
+        }
+        int M = sc.nextInt();
+
+        int l = 1, r = maxBudget, ans = -1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            int totalBudget = calcTotalBudget(budgets, m);
+            if (totalBudget <= M) {
+                ans = m;
+                l = m + 1;
+            }
+            else r = m - 1;
+        }
+        System.out.println(ans);
+    }
+}
+```
+
+### [기타 레슨](https://www.acmicpc.net/problem/2343)
+- 처음부터 count=1로 시작
+```java
+import java.util.Scanner;
+
+class Main
+{
+    public static boolean isPossible(int[] lengths, int videoLength, int videoCount) {
+        int currentLength = 0;
+        int currentCount = 1;
+        for (int len : lengths) {
+            if (len > videoLength) return false;
+            if (currentLength + len > videoLength) {
+                if (++currentCount > videoCount) return false;
+                currentLength = 0;
+            }
+            currentLength += len;
+        }
+        return true;
+    }
+
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int[] lengths = new int[N];
+        for (int i = 0; i < N; i++)
+            lengths[i] = sc.nextInt();
+
+        int l = 1, r = N * 10000, ans = -1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (isPossible(lengths, m, M)) {
+                ans = m;
+                r = m - 1;
+            }
+            else l = m + 1;
         }
         System.out.println(ans);
     }
