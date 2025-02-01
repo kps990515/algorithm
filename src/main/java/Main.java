@@ -7,43 +7,46 @@ public class Main {
 
 
     public static void main(String[] args) {
+        int T = sc.nextInt();
+
         int N = sc.nextInt();
-        int M = sc.nextInt();
-        int[] numbers = new int[N];
+        int[] Ns = new int[N];
         for(int i=0; i<N; i++){
-            numbers[i] = sc.nextInt();
+            Ns[i] = sc.nextInt();
         }
 
-        int L=1, R=N*100000, answer = -1;
-        while(L<=R){
-            int mid = (L+R) / 2;
-            if(determine(numbers, mid, M)){
-                answer = mid;
-                R = mid -1;
-            }else{
-                L = mid +1;
-            }
+        int M = sc.nextInt();
+        int[] Ms = new int[M];
+        for(int i=0; i<M; i++){
+            Ms[i] = sc.nextInt();
         }
-        System.out.println(answer);
+
+        int[] partSumN = getPartSum(Ns);
+        int[] partSumM = getPartSum(Ms);
+        Arrays.sort(partSumM);
+
+        long ans = 0;
+        for(int sum : partSumN){
+            int partSum = T - sum;
+
+        }
+
+
+
     }
 
-    static boolean determine(int[] numbers, int mid, int M){
-        int sum = 0;
-        int count = 1;
-        for(int i=0; i<numbers.length; i++){
-            if(mid<numbers[i]){
-                return false;
+    static int[] getPartSum(int[] Ns){
+        int length = Ns.length;
+        int[] partSum = new int[(length*length+1)/2];
+        int index = 0;
+        for(int i=0; i<length; i++){
+            int sum = 0;
+            for(int j=i; j<length; j++){
+                sum += Ns[j];
+                partSum[index++] = sum;
             }
-            if(sum+numbers[i] > mid){
-                count++;
-                if(count > M){
-                    return false;
-                }
-                sum = 0;
-            }
-            sum += numbers[i];
         }
-        return true;
+        return partSum;
     }
 
 

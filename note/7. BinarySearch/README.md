@@ -504,3 +504,131 @@ class Main
     }
 }
 ```
+
+### [보석 상자](https://www.acmicpc.net/problem/2792)
+```java
+public static void main(String[] args) {
+    int N = sc.nextInt();
+    int M = sc.nextInt();
+    HashMap<Integer, Integer> hashMap = new HashMap<>();
+    int sum = 0;
+    int max = 0;
+    for(int i=0 ;i<M; i++){
+        int x = sc.nextInt();
+        hashMap.put(i, x);
+        sum+=x;
+        max = Math.max(x, max);
+    }
+
+    int L=1, R=max, answer = -1;
+    while(L<=R){
+        int mid = (L+R) / 2;
+        // 이 조건이 중요 반대로 하면 계속 숫자가 커짐
+        if(determine(hashMap, mid) <= N){ 
+            answer = mid;
+            R = mid -1;
+        }else{
+            L = mid +1;
+        }
+    }
+    System.out.println(answer);
+}
+
+static int determine(HashMap<Integer, Integer> hashMap, int mid){
+    int count = 0;
+    for(int n : hashMap.values()){
+        count += n / mid;
+        if(n%mid !=0){
+            count++;
+        }
+    }
+    return count;
+}
+```
+
+### [두 배열의 합](https://www.acmicpc.net/problem/2143)
+- T - A부분합 = B부분합 으로 구하면 더 빠름
+- A부분합 계산
+- B부분합 계산, sort
+- B부분합 배열에 중복값이 있을수 있으므로, B부분합이 나오는 첫 index ~ B부분합 초과 index 구해주기
+- 결과값 : B부분합 초과 index - B부분합 첫 index
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Main
+{
+    static int findLowerBoundIndex(int[] arr, int x) {
+        // x 이상의 값이 처음으로 나타나는 위치
+        int lowerBoundIndex = arr.length;
+        int l = 0, r = arr.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (arr[m] < x) l = m + 1;
+            else {
+                r = m - 1;
+                lowerBoundIndex = m;
+            }
+        }
+        return lowerBoundIndex;
+    }
+
+    static int findUpperBoundIndex(int[] arr, int x) {
+        // x 초과의 값이 처음으로 나타나는 위치
+        int upperBoundIndex = arr.length;
+        int l = 0, r = arr.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (arr[m] <= x) l = m + 1;
+            else {
+                r = m - 1;
+                upperBoundIndex = m;
+            }
+        }
+        return upperBoundIndex;
+    }
+
+    static int[] getAllPartSum(int[] arr) {
+        int N = arr.length;
+        int[] partSum = new int[N * (N + 1) / 2];
+        int partSumIndex = 0;
+        for (int i = 0; i < N; i++) {
+            int sum = 0;
+            for (int j = i; j < N; j++) {
+                sum += arr[j];
+                partSum[partSumIndex++] = sum;
+            }
+        }
+        return partSum;
+    }
+
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int T = sc.nextInt();
+        int N = sc.nextInt();
+        int[] arr1 = new int[N];
+        for (int i = 0; i < N; i++)
+            arr1[i] = sc.nextInt();
+
+        int M = sc.nextInt();
+        int[] arr2 = new int[M];
+        for (int i = 0; i < M; i++)
+            arr2[i] = sc.nextInt();
+
+        int[] partSum1 = getAllPartSum(arr1);
+        int[] partSum2 = getAllPartSum(arr2);
+
+        Arrays.sort(partSum2);
+
+        long ans = 0;
+        for (int sum1 : partSum1) {
+            int pairSum = T - sum1;
+            int lowerBoundIndex = findLowerBoundIndex(partSum2, pairSum);
+            int upperBoundIndex = findUpperBoundIndex(partSum2, pairSum);
+            ans += upperBoundIndex - lowerBoundIndex;
+        }
+        System.out.println(ans);
+    }
+}
+```
