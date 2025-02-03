@@ -3,7 +3,7 @@
 - 특정 조건을 만족하는 부분집합이나 특정값을 찾는 알고리즘
 - BinarySearch는 정렬이 필요하지만 Two Pointer는 필요없음
 
-### 문제1. N개의 자연수 수열의 i부터 j번째 수의 합이 M이 되는 경우를 구하라
+### [수들의 합 2](https://www.acmicpc.net/problem/2003)
 - 구간합이 M보다 크거나 같을때 까지 j 한칸씩 이동하면서 더해줌
 - 합이 M이면 답을 증가
 - 구간합을 재활용하기 위해 맨 처음값(i)만 구간합에서 제거
@@ -38,52 +38,58 @@ class Main
 }
 ```
 
-### 문제2. N개의 용액의 특성값이 [-10억, 10억]범위로 주어질때 서로 다른 용액을 더했을때 0에 가장 가까운 값
+### [두 용액](https://www.acmicpc.net/problem/2470)
 - 정렬
 - 맨 처음값과 맨 뒤에 값을 더해주기
 - 배열을 순회하면서 가장 0에 가까운 두 요소의 합 찾기
 - 현재의 절대값이 이전 최소값보다 작으면 업데이트
 - 현재 합이 0보다 크면 오른쪽 포인터 왼쪽으로 이동 / 0보다 작으면 왼쪽포인터 오른쪽으로 이동
 ```java
-class Main
-{
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+public class Main {
+    static FastReader scan = new FastReader();
+    static StringBuilder sb = new StringBuilder();
 
-        int N = sc.nextInt();
-        int[] arr = new int[N];
-        for (int i = 0; i < N; i++)
-            arr[i] = sc.nextInt();
-        // 1. 정렬
-        Arrays.sort(arr);
+    static int N;
+    static int[] A;
 
-        int leftIndex = 0;
-        int rightIndex = N - 1;
-        int ansLeftIndex = leftIndex;
-        int ansRightIndex = rightIndex;
-        // 2. 첫값 + 끝값
-        int ansAbs = Math.abs(arr[ansLeftIndex] + arr[ansRightIndex]);
-        // 3. 배열을 순회하면서 가장 0에 가까운 두 요소의 합 찾기
-        while (leftIndex < rightIndex) {
-            int currentSum = arr[leftIndex] + arr[rightIndex];
-            int currentAbs = Math.abs(currentSum);
-            // 4.현재의 절대값이 이전 최소값보다 작으면 업데이트
-            if (ansAbs > currentAbs) {
-                ansAbs = currentAbs;
-                ansLeftIndex = leftIndex;
-                ansRightIndex = rightIndex;
-            }
-            // 5.현재 합이 0보다 크면 오른쪽 포인터를 왼쪽으로 이동 (합을 감소시키기 위함)
-            if (currentSum > 0) rightIndex--;
-            // 5.현재 합이 0 이하면 왼쪽 포인터를 오른쪽으로 이동 (합을 증가시키기 위함)
-            else leftIndex++;
+    static void input() {
+        N = scan.nextInt();
+        A = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            A[i] = scan.nextInt();
         }
-        System.out.println(arr[ansLeftIndex] + " " + arr[ansRightIndex]);
+    }
+
+    static void pro() {
+        // 최소, 최대 원소를 빠르게 찾기 위해서 정렬을 미리 해주자.
+        Arrays.sort(A, 1, N + 1);
+
+        int best_sum = Integer.MAX_VALUE;
+        // L은 제일 작은 원소, R은 제일 큰 원소
+        int v1 = 0, v2 = 0, L = 1, R = N;
+
+        while (L < R) {  // L == R 인 상황이면 용액이 한 개 뿐인 것이므로, L < R 일 때까지만 반복한다.
+            if (best_sum > Math.abs(A[L] + A[R])) {
+                best_sum = Math.abs(A[L] + A[R]);
+                v1 = A[L];
+                v2 = A[R];
+            }
+            // L+R > 0 이므로 최대 입장에서 L의 최선을 만난 상태 -> 이제 고려안함
+            if (A[L] + A[R] > 0) R--;
+            else L++;
+        }
+        sb.append(v1).append(' ').append(v2);
+        System.out.println(sb);
+    }
+
+    public static void main(String[] args) {
+        input();
+        pro();
     }
 }
 ```
 
-### 문제3. N개의 자연수 수열에서 연속된 수들의 부분합중에 합이 S이상이 되는것 중 가장 짧은 것
+### [부분합](https://www.acmicpc.net/problem/1806)
 - 구간합이 M보다 크거나 같을때 까지 j 한칸씩 이동
 - 구간합이 M보다 크거나 같을때 기존 길이와 지금 i~j의 길이중 짧은걸 업데이트
 - 시작 구간합 삭제
@@ -107,10 +113,10 @@ class Main
             while (currentSum < M && nextIndex < N)
                 // 1. 구간합이 M보다 크거나 같을때 까지 j 한칸씩 이동
                 currentSum += arr[nextIndex++];
-            // 2. 구간합이 M보다 크거나 같을때 기존 길이와 지금 i~j의 길이중 짧은걸 업데이트
-            if (currentSum >= M) ansLength = Math.min(ansLength, nextIndex - i);
-            // 3. 시작 구간합 삭제
-            currentSum -= arr[i];
+                // 2. 구간합이 M보다 크거나 같을때 기존 길이와 지금 i~j의 길이중 짧은걸 업데이트
+                if (currentSum >= M) ansLength = Math.min(ansLength, nextIndex - i);
+                // 3. 시작 구간합 삭제
+                currentSum -= arr[i];
         }
         // 4. S이상이 되는 부분합이 없다면 답이 없으니까 0으로 출력
         if (ansLength > N) ansLength = 0;
@@ -119,39 +125,33 @@ class Main
 }
 ```
 
-### 문제4. N개의 정수 수열에서 두 수의 차이가 M이상이면서 가장 작은 쌍을 구하라(같은 수 고르기 가능)
+### [수 고르기](https://www.acmicpc.net/problem/2230)
 - 두수의 차이가 M미만이고, rightIndex가 끝에 도달하지 않을때까지 rightIndex증가
 - 두 수의 차이 구하기
 - 기존값과 비교해서 작은걸로 없데이트
 ```java
-class Main
-{
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+  public static void main(String[] args) {
+      int N = sc.nextInt();
+      int M = sc.nextInt();
+      int[] numbers = new int[N];
+      for(int i=0; i<N; i++){
+          numbers[i] = sc.nextInt();
+      }
 
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        int[] arr = new int[N];
-        for (int i = 0; i < N; i++)
-            arr[i] = sc.nextInt();
+      Arrays.sort(numbers);
 
-        Arrays.sort(arr);
-        
-        int ansDiff = arr[N - 1] - arr[0];
-        // 같은 수 고르기 가능해서 right도 0으로 세팅
-        int rightIndex = 0;
-        for (int leftIndex = 0; leftIndex < N; leftIndex++) {
-            // 두수의 차이가 M미만이고, rightIndex가 끝에 도달하지 않을때까지 rightIndex증가
-            while (arr[rightIndex] - arr[leftIndex] < M && rightIndex < N - 1)
-                rightIndex++;
-            // 두 수의 차이 구하기
-            int diff = arr[rightIndex] - arr[leftIndex];
-            // 기존값과 비교해서 작은걸로 없데이트
-            if (diff >= M) ansDiff = Math.min(ansDiff, diff);
-        }
-        System.out.println(ansDiff);
-    }
-}
+      int R = 0, answer = Integer.MAX_VALUE;
+      for(int i=0; i<N; i++){
+          while(R < N){
+              if(numbers[R] - numbers[i] >=M){
+                  answer = Math.min(answer, numbers[R] - numbers[i]);
+                  break;
+              }
+              R++;
+          }
+      }
+      System.out.println(answer);
+  }
 ```
 
 ### 문제5. 길이 |S|인 문자열에서 길이가 |P|인 부분문자열 중 'A','C','G','T'를 각 개수 이상 가진 개수 구하기

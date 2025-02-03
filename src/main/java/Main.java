@@ -7,47 +7,28 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int T = sc.nextInt();
-
         int N = sc.nextInt();
-        int[] Ns = new int[N];
-        for(int i=0; i<N; i++){
-            Ns[i] = sc.nextInt();
-        }
-
         int M = sc.nextInt();
-        int[] Ms = new int[M];
-        for(int i=0; i<M; i++){
-            Ms[i] = sc.nextInt();
+        int[] numbers = new int[N];
+        for(int i=0; i<N; i++){
+            numbers[i] = sc.nextInt();
         }
 
-        int[] partSumN = getPartSum(Ns);
-        int[] partSumM = getPartSum(Ms);
-        Arrays.sort(partSumM);
+        Arrays.sort(numbers);
 
-        long ans = 0;
-        for(int sum : partSumN){
-            int partSum = T - sum;
-
-        }
-
-
-
-    }
-
-    static int[] getPartSum(int[] Ns){
-        int length = Ns.length;
-        int[] partSum = new int[(length*length+1)/2];
-        int index = 0;
-        for(int i=0; i<length; i++){
-            int sum = 0;
-            for(int j=i; j<length; j++){
-                sum += Ns[j];
-                partSum[index++] = sum;
+        int L = 0, R = 0, answer = Integer.MAX_VALUE;
+        for(int i=0; i<N; i++){
+            while(R < N){
+                if(numbers[R] - numbers[i] >=M){
+                    answer = Math.min(answer, numbers[R] - numbers[i]);
+                    break;
+                }
+                R++;
             }
         }
-        return partSum;
+        System.out.println(answer);
     }
+
 
 
     static class FastReader {
