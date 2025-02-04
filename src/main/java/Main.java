@@ -7,26 +7,64 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        int[] numbers = new int[N];
-        for(int i=0; i<N; i++){
-            numbers[i] = sc.nextInt();
+        int S = sc.nextInt();
+        int P = sc.nextInt();
+        String dnaString = sc.nextLine();
+        // ACGT 필요 최수개수
+        int[] minReq = new int[4];
+        for(int i=0; i<4; i++){
+            minReq[i] = sc.nextInt();
         }
 
-        Arrays.sort(numbers);
+        // ACGT 현재개수
+        int[] dnaCount = new int[4];
 
-        int L = 0, R = 0, answer = Integer.MAX_VALUE;
-        for(int i=0; i<N; i++){
-            while(R < N){
-                if(numbers[R] - numbers[i] >=M){
-                    answer = Math.min(answer, numbers[R] - numbers[i]);
-                    break;
-                }
-                R++;
+        // 초기 윈도우 설정(문자열의 처음P개 문자)
+        for(int i=0; i<P; i++){
+            char dna = dnaString.charAt(i);
+            dnaCount[dnaToIndex(dna)]++;
+        }
+
+        int answer = 0;
+
+        if(isValid(dnaCount, minReq)){
+            answer++;
+        }
+
+        // 슬라이딩 윈도우: 윈도우를 한 칸씩 이동하면서 조건 만족 여부 확인
+        for (int i = P; i < S; i++) {
+            // 새로 들어오는 문자 추가
+            char newDna = dnaString.charAt(i);
+            dnaCount[dnaToIndex(newDna)]++;
+
+            // 맨 첫 문자 제거
+            char firstDna = dnaString.charAt(i-P);
+            dnaCount[dnaToIndex(firstDna)]--;
+
+            if(isValid(dnaCount, minReq)){
+                answer++;
             }
         }
         System.out.println(answer);
+    }
+
+    static int dnaToIndex(char dna){
+        switch(dna) {
+            case 'A': return 0;
+            case 'C': return 1;
+            case 'G': return 2;
+            case 'T': return 3;
+            default:  return -1;
+        }
+    }
+
+    static boolean isValid(int[] dnaCount, int[] minReq){
+        for(int i=0; i<4; i++){
+            if(dnaCount[i] < minReq[i]){
+                return false;
+            }
+        }
+        return true;
     }
 
 

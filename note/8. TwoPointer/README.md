@@ -154,65 +154,72 @@ class Main
   }
 ```
 
-### 문제5. 길이 |S|인 문자열에서 길이가 |P|인 부분문자열 중 'A','C','G','T'를 각 개수 이상 가진 개수 구하기
-- 추가조건 : 부분문자열의 등장 위치가 다르다면 부분문자열이 같다고해도 다른 문자열로 취급한다)
+### [DNA 비밀번호](https://www.acmicpc.net/problem/12891)
 - 최초 부분 시퀀스에 대해 A,C,G,T개수 계산하고 조건을 만족하는지 확인
 - 슬라이딩 윈도우를 통해 나머지 부분 검사
+  - 다음 문자 추가하고 A,C,G,T개수 계산 
   - 시퀀스 첫부분 제거하고 A,C,G,T개수 계산
-  - P만큼 시퀀스 더해주고 A,C,G,T개수 계산
   - 조건 만족했는지 확인
 ```java
-class Main {
-    // 주어진 염기 문자를 해당 인덱스 번호로 변환
-    static int baseToIndex(char alp) {
-        if (alp == 'A') return 0;
-        else if (alp == 'C') return 1;
-        else if (alp == 'G') return 2;
-        else if (alp == 'T') return 3;
-        return -1;  // 입력이 A, C, G, T 중 하나가 아닌 경우
+public static void main(String[] args) {
+    int S = sc.nextInt();
+    int P = sc.nextInt();
+    String dnaString = sc.nextLine();
+    // ACGT 필요 최수개수
+    int[] minReq = new int[4];
+    for(int i=0; i<4; i++){
+        minReq[i] = sc.nextInt();
     }
 
-    // 현재 염기 수가 최소 필요 염기 수를 만족하는지 검사
-    static boolean isValidSequence(int[] baseCount, int[] minimumBaseCount) {
-        for (int i = 0; i < baseCount.length; i++)
-            if (baseCount[i] < minimumBaseCount[i])
-                return false;  // 하나라도 만족하지 않으면 false 반환
-        return true;  // 모든 조건을 만족하면 true 반환
+    // ACGT 현재개수
+    int[] dnaCount = new int[4];
+
+    // 초기 윈도우 설정(문자열의 처음P개 문자)
+    for(int i=0; i<P; i++){
+        char dna = dnaString.charAt(i);
+        dnaCount[dnaToIndex(dna)]++;
     }
 
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+    int answer = 0;
 
-        int S = sc.nextInt();
-        int P = sc.nextInt();
-        // 전체 시퀀스 입력 받음
-        char[] sequence = sc.next().toCharArray();
-        // 각 염기별(A,C,G,T) 최소 필요 수량 입력
-        int[] minimumBaseCount = new int[4];
-        for (int i = 0; i < 4; i++)
-            minimumBaseCount[i] = sc.nextInt();
+    if(isValid(dnaCount, minReq)){
+        answer++;
+    }
 
-        // 현재 검사 중인 부분 시퀀스의 각 염기 수
-        int[] currentBaseCount = new int[4];
-        // 1-1.최초의 부분 시퀀스에 대한 A,C,G,T 수 계산
-        for (int i = 0; i < P; i++)
-            currentBaseCount[baseToIndex(sequence[i])]++;
+    // 슬라이딩 윈도우: 윈도우를 한 칸씩 이동하면서 조건 만족 여부 확인
+    for (int i = P; i < S; i++) {
+        // 새로 들어오는 문자 추가
+        char newDna = dnaString.charAt(i);
+        dnaCount[dnaToIndex(newDna)]++;
 
-        // 1-2.첫 부분 시퀀스가 조건을 만족하는지 확인
-        int ans = isValidSequence(currentBaseCount, minimumBaseCount) ? 1 : 0;
+        // 맨 첫 문자 제거
+        char firstDna = dnaString.charAt(i-P);
+        dnaCount[dnaToIndex(firstDna)]--;
 
-        // 2. 슬라이딩 윈도우를 이용해 나머지 부분 시퀀스 검사
-        for (int i = 1; i <= S - P; i++) {
-            // 2-1. 윈도우의 시작 부분을 하나 줄이고, 끝 부분을 하나 늘림
-            currentBaseCount[baseToIndex(sequence[i - 1])]--;
-            currentBaseCount[baseToIndex(sequence[i + P - 1])]++;
-            // 업데이트된 부분 시퀀스가 조건을 만족하는지 확인
-            if (isValidSequence(currentBaseCount, minimumBaseCount))
-                ans++;
+        if(isValid(dnaCount, minReq)){
+            answer++;
         }
-        // 만족하는 부분 시퀀스의 개수 출력
-        System.out.println(ans);
     }
+    System.out.println(answer);
+}
+
+static int dnaToIndex(char dna){
+    switch(dna) {
+        case 'A': return 0;
+        case 'C': return 1;
+        case 'G': return 2;
+        case 'T': return 3;
+        default:  return -1;
+    }
+}
+
+static boolean isValid(int[] dnaCount, int[] minReq){
+    for(int i=0; i<4; i++){
+        if(dnaCount[i] < minReq[i]){
+            return false;
+        }
+    }
+    return true;
 }
 ```
 
