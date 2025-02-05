@@ -7,64 +7,36 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int S = sc.nextInt();
-        int P = sc.nextInt();
-        String dnaString = sc.nextLine();
-        // ACGT 필요 최수개수
-        int[] minReq = new int[4];
-        for(int i=0; i<4; i++){
-            minReq[i] = sc.nextInt();
-        }
-
-        // ACGT 현재개수
-        int[] dnaCount = new int[4];
-
-        // 초기 윈도우 설정(문자열의 처음P개 문자)
-        for(int i=0; i<P; i++){
-            char dna = dnaString.charAt(i);
-            dnaCount[dnaToIndex(dna)]++;
-        }
-
-        int answer = 0;
-
-        if(isValid(dnaCount, minReq)){
-            answer++;
-        }
-
-        // 슬라이딩 윈도우: 윈도우를 한 칸씩 이동하면서 조건 만족 여부 확인
-        for (int i = P; i < S; i++) {
-            // 새로 들어오는 문자 추가
-            char newDna = dnaString.charAt(i);
-            dnaCount[dnaToIndex(newDna)]++;
-
-            // 맨 첫 문자 제거
-            char firstDna = dnaString.charAt(i-P);
-            dnaCount[dnaToIndex(firstDna)]--;
-
-            if(isValid(dnaCount, minReq)){
-                answer++;
-            }
-        }
-        System.out.println(answer);
+        runTest();
     }
 
-    static int dnaToIndex(char dna){
-        switch(dna) {
-            case 'A': return 0;
-            case 'C': return 1;
-            case 'G': return 2;
-            case 'T': return 3;
-            default:  return -1;
+    public static List<int[]> mergeIntervals(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return new ArrayList<>();
         }
-    }
 
-    static boolean isValid(int[] dnaCount, int[] minReq){
-        for(int i=0; i<4; i++){
-            if(dnaCount[i] < minReq[i]){
-                return false;
+        // 1. 시작값 기준으로 정렬
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+
+        List<int[]> merged = new ArrayList<>();
+        int[] current = intervals[0]; // 첫 번째 구간을 초기값으로 설정
+        merged.add(current);
+
+        for (int i = 1; i < intervals.length; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+
+            // 2. 현재 구간이 이전 구간과 겹치는 경우 병합
+            if (start <= current[1]) {
+                current[1] = Math.max(current[1], end); // 끝값 업데이트
+            } else {
+                // 겹치지 않으면 새 구간 추가
+                current = new int[]{start, end};
+                merged.add(current);
             }
         }
-        return true;
+
+        return merged;
     }
 
 
