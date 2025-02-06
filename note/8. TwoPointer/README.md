@@ -224,6 +224,7 @@ static boolean isValid(int[] dnaCount, int[] minReq){
 ```
 
 ### 문제6. 원형으로 연결된 N개의 지점 중 두곳에 탑을 세울 때 가능한 거리의 최댓값
+- 환형구조를 나타낼때 선형자료구조(배열)를 2배로 늘리면 인덱스 관리가 편함
 - 시계방향 거리가 반시계방향거리보다 작을때까지 반복
   - 시계방향에 다음지점 거리 더하기
   - 반시계방향에 다음 지점 거리 빼기
@@ -250,8 +251,8 @@ class Main {
         }
 
         // 초기 분할을 설정하여 첫 지점을 기준으로 두 그룹으로 나눔
-        int pairIndex = 1; // 다음 지점의 인덱스
-        int leftDistance = distance[0]; // 시계방향 거리
+        int pairIndex = 1; // // 첫 시작점은 0번, 분할 지점은 1번부터 시작
+        int leftDistance = distance[0]; // 시계방향, 시작점에서 1번까지의 거리
         int rightDistance = distanceSum - distance[0]; // 반시계방향 거리
         int maxDistance = Math.min(leftDistance, rightDistance); // 두 그룹 간의 거리의 최소값을 최대 거리로 초기 설정
 
@@ -334,6 +335,39 @@ class Main {
             bw.write(x + " "); // 결과 배열의 요소를 공백으로 구분하여 출력
         bw.write("\n"); // 줄바꿈 문자 추가
         bw.flush(); // 스트림을 비움
+    }
+}
+```
+- Stream 사용법
+```java
+import java.io.*;
+import java.util.*;
+import java.util.stream.IntStream;
+
+public class Main {
+    static StringBuilder sb = new StringBuilder();
+    static FastReader sc = new FastReader();
+
+
+    public static void main(String[] args) {
+        // 배열 A의 크기 N과 배열 B의 크기 M을 입력 받음
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+
+        // 배열 A와 B를 선언하고 입력 값을 받음
+        int[] a = new int[N];
+        int[] b = new int[M];
+        for (int i = 0; i < N; i++)
+            a[i] = sc.nextInt(); // 배열 A의 모든 요소를 입력 받음
+        for (int i = 0; i < M; i++)
+            b[i] = sc.nextInt(); // 배열 B의 모든 요소를 입력 받음
+
+        int[] merged = IntStream.concat(Arrays.stream(a), Arrays.stream(b)).sorted().toArray();
+
+        for (int temp : merged) {
+            sb.append(temp).append(" ");
+        }
+        System.out.println(sb);
     }
 }
 ```

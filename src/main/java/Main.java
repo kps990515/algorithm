@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Main {
     static StringBuilder sb = new StringBuilder();
@@ -7,37 +8,28 @@ public class Main {
 
 
     public static void main(String[] args) {
-        runTest();
+        // 배열 A의 크기 N과 배열 B의 크기 M을 입력 받음
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+
+        // 배열 A와 B를 선언하고 입력 값을 받음
+        int[] a = new int[N];
+        int[] b = new int[M];
+        for (int i = 0; i < N; i++)
+            a[i] = sc.nextInt(); // 배열 A의 모든 요소를 입력 받음
+        for (int i = 0; i < M; i++)
+            b[i] = sc.nextInt(); // 배열 B의 모든 요소를 입력 받음
+
+        int[] merged = IntStream.concat(Arrays.stream(a), Arrays.stream(b)).sorted().toArray();
+
+        for(int temp : merged){
+            sb.append(temp).append(" ");
+        }
+        System.out.println(sb);
     }
 
-    public static List<int[]> mergeIntervals(int[][] intervals) {
-        if (intervals == null || intervals.length == 0) {
-            return new ArrayList<>();
-        }
 
-        // 1. 시작값 기준으로 정렬
-        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
 
-        List<int[]> merged = new ArrayList<>();
-        int[] current = intervals[0]; // 첫 번째 구간을 초기값으로 설정
-        merged.add(current);
-
-        for (int i = 1; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            // 2. 현재 구간이 이전 구간과 겹치는 경우 병합
-            if (start <= current[1]) {
-                current[1] = Math.max(current[1], end); // 끝값 업데이트
-            } else {
-                // 겹치지 않으면 새 구간 추가
-                current = new int[]{start, end};
-                merged.add(current);
-            }
-        }
-
-        return merged;
-    }
 
 
 
